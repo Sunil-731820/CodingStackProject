@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.UserAuthentocation.Exceptions.InvalidCredentialsException;
 import com.example.UserAuthentocation.entity.User;
 import com.example.UserAuthentocation.repository.UserRepository;
 
@@ -24,8 +25,9 @@ public class AuthController {
 
 	@PostMapping("/login")
 	public String login(String email, String password) {
-	    User user = userRepository.findByEmail(email).orElse(null);
-
+		System.out.println("Calling the Login Methods:=");
+	    User user = userRepository.findByEmail(email).orElseThrow(() -> new InvalidCredentialsException("Invalid Email & passowrd Please check once"));
+	    
 	    if (user != null &&
 	        new BCryptPasswordEncoder().matches(password, user.getPassword())) {
 	        return "home";

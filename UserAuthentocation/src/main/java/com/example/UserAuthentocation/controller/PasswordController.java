@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.UserAuthentocation.Exceptions.OtpExpiredException;
+import com.example.UserAuthentocation.Exceptions.OtpInvalidException;
 import com.example.UserAuthentocation.entity.PasswordResetOtp;
 import com.example.UserAuthentocation.entity.User;
 import com.example.UserAuthentocation.repository.OtpRepository;
@@ -44,7 +46,7 @@ public class PasswordController {
 
 	    otpRepository.save(resetOtp);
 	    emailService.sendOtpEmail(email, otp);
-
+	    
 	    return "verify-otp";
 	}
 
@@ -54,7 +56,13 @@ public class PasswordController {
 		System.out.println("Calling the verfy OTP methods :=");
 	    PasswordResetOtp resetOtp =
 	            otpRepository.findByEmailAndOtp(email, otp);
-
+	    if(resetOtp==null) {
+	    	throw new OtpInvalidException("Invalid OTP,Please Check once");
+	    }
+	    
+	    if(resetOtp.getExpiryTime().isBefore(LocalDateTime.now())) {
+	    	throw new OtpExpiredException("OTP has expired. Please request a new one.");
+	    }
 	    if (resetOtp != null &&
 	        resetOtp.getExpiryTime().isAfter(LocalDateTime.now())) {
 	        return "reset-password";
