@@ -1,6 +1,8 @@
 package com.example.UserAuthentocation.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,7 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.UserAuthentocation.Exceptions.InvalidCredentialsException;
 import com.example.UserAuthentocation.entity.User;
+import com.example.UserAuthentocation.entity.VerificationToken;
 import com.example.UserAuthentocation.repository.UserRepository;
+import com.example.UserAuthentocation.repository.VerificationTokenRepository;
+import com.example.UserAuthentocation.service.EmailService;
 
 import jakarta.validation.Valid;
 
@@ -22,6 +27,12 @@ public class AuthController {
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	VerificationTokenRepository verificationTokenRepository;
+	
+	@Autowired
+	EmailService emailService;
 
 	@PostMapping("/signup")
 	public String signup(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
@@ -39,15 +50,42 @@ public class AuthController {
 	        }
 		
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+		user.setEnabled(false); // ❗ disable until email verified
 	    userRepository.save(user);
+	    
+	 // create verification token
+	    String token = UUID.randomUUID().toString();
+	    VerificationToken verificationToken = new VerificationToken();
+	    verificationToken.setToken(token);
+	    verificationToken.setUser(user);
+	    verificationToken.setExpiryTime(LocalDateTime.now().plusHours(24));
+	    verificationTokenRepository.save(verificationToken);
+
+	    // send email
+	    String link = "http://localhost:8080/verify-email?token=" + token;
+	    emailService.sendVerificationEmail(user.getEmail(), link);
+
+	    model.addAttribute("successMessage",
+	            "Verification email sent. Please check your inbox.");
+	    
 	    return "login";
 	}
 
 	@PostMapping("/login")
-	public String login(String email, String password) {
+	public String login(String email, String password,Model model) {
 		System.out.println("Calling the Login Methods:=");
 	    User user = userRepository.findByEmail(email).orElseThrow(() -> new InvalidCredentialsException("Invalid Email & passowrd Please check once"));
+	    if (user == null) {
+	        model.addAttribute("errorMessage", "Invalid email or password");
+	        return "login";
+	    }
 	    
+	    // Email NOT verified
+	    if (!user.isEnabled()) {
+	        model.addAttribute("errorMessage",
+	                "Please verify your email before login.");
+	        return "login";
+	    }
 	    if (user != null &&
 	        new BCryptPasswordEncoder().matches(password, user.getPassword())) {
 	        return "home";

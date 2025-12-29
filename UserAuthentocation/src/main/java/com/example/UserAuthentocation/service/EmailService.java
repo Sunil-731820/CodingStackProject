@@ -18,4 +18,16 @@ public class EmailService {
         message.setText("Your OTP is: " + otp + "\nValid for 5 minutes.");
         mailSender.send(message);
     }
+    
+    public void sendVerificationEmail(String toEmail, String link) {
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject("Verify Your Email");
+        message.setText(
+            "Click the link to verify your account:\n" + link
+        );
+
+        mailSender.send(message);
+    }
 }

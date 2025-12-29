@@ -5,6 +5,15 @@
 
 <h2>Login</h2>
 
+<!-- Show error or success messages -->
+<div style="color:red;">
+    ${errorMessage}
+</div>
+
+<div style="color:green;">
+    ${successMessage}
+</div>
+
 <form action="/login" method="post">
     Email: <input type="email" name="email" required /><br><br>
     Password: <input type="password" name="password" required /><br><br>
