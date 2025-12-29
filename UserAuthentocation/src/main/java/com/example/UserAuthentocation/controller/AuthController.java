@@ -84,6 +84,7 @@ public class AuthController {
 	    if (!user.isEnabled()) {
 	        model.addAttribute("errorMessage",
 	                "Please verify your email before login.");
+	        model.addAttribute("email", user.getEmail()); // send email to JSP for Resend Link
 	        return "login";
 	    }
 	    if (user != null &&

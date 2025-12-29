@@ -22,6 +22,13 @@
 
 <a href="/forgot-password">Forgot Password?</a><br>
 <a href="/signup">New User?</a>
+<h3>Resend Email verifications before Login This is for First Time User login </h3>
+<div style="color:red;">${errorMessage}</div>
+
+<h2>For Email Verifivcations please visit to Separate page</h2>
+<a href="${pageContext.request.contextPath}/resend-verification-page">
+    Resend Email Verification
+</a>
 
 </body>
 </html>

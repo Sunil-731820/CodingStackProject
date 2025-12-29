@@ -2,6 +2,7 @@ package com.example.UserAuthentocation.controller;
 
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,16 +14,26 @@ import com.example.UserAuthentocation.entity.User;
 import com.example.UserAuthentocation.entity.VerificationToken;
 import com.example.UserAuthentocation.repository.UserRepository;
 import com.example.UserAuthentocation.repository.VerificationTokenRepository;
+import com.example.UserAuthentocation.service.EmailService;
 
 
 @Controller
 public class VerificationController {
+
+//    private final controller.AuthController authController;
 
     @Autowired
     private VerificationTokenRepository tokenRepository;
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private EmailService emailService;
+
+//    VerificationController(controller.AuthController authController) {
+//        this.authController = authController;
+//    }
 
     /**
      * Email verification endpoint
@@ -66,4 +77,51 @@ public class VerificationController {
 
         return "login";
     }
+    
+//    Resend Link Email Verfications for User if First Time Did not verify their email after sign up
+    
+    @GetMapping("/resend-verification")
+    public String resendVerification(@RequestParam("email") String email,
+                                     Model model) {
+    	System.out.println("Calling the Resend Verifications methods to Send Link");
+        User user = userRepository.findByEmail(email).orElse(null);
+
+        if (user == null) {
+            model.addAttribute("errorMessage", "Email not found.");
+            return "login";
+        }
+
+        if (user.isEnabled()) {
+            model.addAttribute("successMessage",
+                    "Your email is already verified.");
+            return "login";
+        }
+ 
+        // Delete old token (if exists)
+        tokenRepository.deleteByUser(user);
+
+        // Create new token
+        String token = UUID.randomUUID().toString();
+        VerificationToken verificationToken = new VerificationToken();
+        verificationToken.setToken(token);
+        verificationToken.setUser(user);
+        verificationToken.setExpiryTime(LocalDateTime.now().plusHours(24));
+        tokenRepository.save(verificationToken);
+
+        // Send email
+        String link = "http://localhost:8080/verify-email?token=" + token;
+        emailService.sendVerificationEmail(user.getEmail(), link);
+
+        model.addAttribute("successMessage",
+                "Verification email resent successfully.");
+
+        return "login";
+    }
+    
+    
+    @GetMapping("/resend-verification-page")
+    public String showResendVerificationPage() {
+        return "resendVerification"; // JSP name (NO .jsp)
+    }
+    
 }
