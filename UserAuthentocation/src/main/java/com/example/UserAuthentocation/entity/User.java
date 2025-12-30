@@ -1,5 +1,7 @@
 package com.example.UserAuthentocation.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,8 +33,22 @@ public class User {
     
     private boolean enabled;
     
+//    private int failedAttempts = 0;
+//
+//    private boolean accountLocked = false;
+//
+//    private LocalDateTime lockTime;
+//    
     
-	public boolean isEnabled() {
+    
+	/*
+	 * public int getFailedAttempts() { return failedAttempts; } public void
+	 * setFailedAttempts(int failedAttempts) { this.failedAttempts = failedAttempts;
+	 * } public boolean isAccountLocked() { return accountLocked; } public void
+	 * setAccountLocked(boolean accountLocked) { this.accountLocked = accountLocked;
+	 * } public LocalDateTime getLockTime() { return lockTime; } public void
+	 * setLockTime(LocalDateTime lockTime) { this.lockTime = lockTime; }
+	 */	public boolean isEnabled() {
 		return enabled;
 	}
 	public void setEnabled(boolean enabled) {
