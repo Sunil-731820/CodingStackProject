@@ -80,6 +80,8 @@ public class AuthController {
 	        return "login";
 	    }
 	    
+	    
+	    
 	    // Email NOT verified
 	    if (!user.isEnabled()) {
 	        model.addAttribute("errorMessage",
