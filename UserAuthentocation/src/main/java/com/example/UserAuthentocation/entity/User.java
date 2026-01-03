@@ -2,6 +2,7 @@ package com.example.UserAuthentocation.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,6 +34,23 @@ public class User {
     
     private boolean enabled;
     
+    private String authProvider;
+    
+    
+    
+    
+	public String getAuthProvider() {
+		return authProvider;
+	}
+	public void setAuthProvider(String authProvider) {
+		this.authProvider = authProvider;
+	}
+	private String providerUserId;    // Google "sub"
+
+    private boolean emailVerified;
+    
+    
+    
 //    private int failedAttempts = 0;
 //
 //    private boolean accountLocked = false;
@@ -41,7 +59,24 @@ public class User {
 //    
     
     
+	public String getProviderUserId() {
+		return providerUserId;
+	}
+	public void setProviderUserId(String providerUserId) {
+		this.providerUserId = providerUserId;
+	}
+	public boolean isEmailVerified() {
+		return emailVerified;
+	}
+	public void setEmailVerified(boolean emailVerified) {
+		this.emailVerified = emailVerified;
+	}
+
 	/*
+	 * public String getAuthProvider() { return authProvider; } public void
+	 * setAuthProvider(String authProvider) { this.authProvider = authProvider; }
+	 */
+	 /*
 	 * public int getFailedAttempts() { return failedAttempts; } public void
 	 * setFailedAttempts(int failedAttempts) { this.failedAttempts = failedAttempts;
 	 * } public boolean isAccountLocked() { return accountLocked; } public void

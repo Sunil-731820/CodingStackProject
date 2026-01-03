@@ -40,8 +40,14 @@
         <a href="/forgot-password">Forgot Password?</a><br><br>
         <a href="${pageContext.request.contextPath}/resend-verification-page">
     Resend Email Verification
-</a>
-        
+</a><br><br>
+<!-- 🔵 GOOGLE LOGIN -->
+<a href="/oauth2/authorization/google"
+   class="btn btn-outline-danger d-flex align-items-center justify-content-center gap-2">
+
+    <i class="bi bi-google"></i>
+    <span>Sign In with Google</span>
+</a>        
     </div>
 </div>
 

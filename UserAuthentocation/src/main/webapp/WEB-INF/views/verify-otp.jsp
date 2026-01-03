@@ -58,7 +58,7 @@ setInterval(() => {
     <span id="countdown" class="timer"></span>
 
     <br><br>
-        <button type="submit" class="submit-btn">Verify OTP</button>
+        <button id="verifyBtn" type="submit" class="submit-btn">Verify OTP</button>
     
     
 </form>
