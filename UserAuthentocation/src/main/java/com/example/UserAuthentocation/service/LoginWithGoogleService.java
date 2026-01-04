@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.UserAuthentocation.Exceptions.InvalidCredentialsException;
 import com.example.UserAuthentocation.entity.User;
-import com.example.UserAuthentocation.repository.UserRepository;
+import com.example.UserAuthentocation.repository.jpa.UserRepository;
 
 @Service
 public class LoginWithGoogleService {

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.UserAuthentocation.entity.User;
 import com.example.UserAuthentocation.entity.VerificationToken;
-import com.example.UserAuthentocation.repository.UserRepository;
-import com.example.UserAuthentocation.repository.VerificationTokenRepository;
+import com.example.UserAuthentocation.repository.jpa.UserRepository;
+import com.example.UserAuthentocation.repository.jpa.VerificationTokenRepository;
 import com.example.UserAuthentocation.service.EmailService;
 
 

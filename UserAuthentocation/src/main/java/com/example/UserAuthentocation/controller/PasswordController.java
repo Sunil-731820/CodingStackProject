@@ -13,8 +13,8 @@ import com.example.UserAuthentocation.Exceptions.OtpExpiredException;
 import com.example.UserAuthentocation.Exceptions.OtpInvalidException;
 import com.example.UserAuthentocation.entity.PasswordResetOtp;
 import com.example.UserAuthentocation.entity.User;
-import com.example.UserAuthentocation.repository.OtpRepository;
-import com.example.UserAuthentocation.repository.UserRepository;
+import com.example.UserAuthentocation.repository.jpa.OtpRepository;
+import com.example.UserAuthentocation.repository.jpa.UserRepository;
 import com.example.UserAuthentocation.service.EmailService;
 
 @Controller
