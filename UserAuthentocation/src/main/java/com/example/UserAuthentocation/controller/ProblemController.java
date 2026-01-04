@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.UserAuthentocation.entity.Problem;
 import com.example.UserAuthentocation.repository.mongo.ProblemRepository;
 import com.example.UserAuthentocation.service.ProblemService;
+import com.example.UserAuthentocation.service.UserProblemStatusService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
@@ -25,18 +29,31 @@ public class ProblemController {
     
     @Autowired
     private ProblemService problemService;
+    
+    @Autowired
+    private UserProblemStatusService userProblemStatusService;
 
     @GetMapping
-    public String getProblems(Model model) {
+    public String getProblems(Model model,HttpServletRequest request,HttpSession session) {
     	 List<Problem> problems = problemService.getAllProblems();
     	 System.out.println("The Size of the List From Backend Side is :"+problems.size());
         model.addAttribute("problems",problems);
+        String userEmail = (String) session.getAttribute("loggedInUserEmail");
+        System.out.println("The logged In user Email is :"+userEmail);
+        long solvedCount =
+                userProblemStatusService.solvedCount(userEmail);
+
+        int totalProblems = problems.size();
+
+        request.setAttribute("solvedCount", solvedCount);
+        request.setAttribute("totalProblems", totalProblems);
         return "problems"; // problems.jsp
     }
     
     @PostMapping("/solved")
     @ResponseBody
     public void solved(@RequestParam String id) {
+    	
     	problemService.toggleSolved(id);
     }
     
