@@ -24,6 +24,23 @@ public class ProblemService {
     	System.out.println("The Size of the Data after fetching from The mongoDB is :"+listofData.size());
         return problemRepository.findAll();
     }
+    
+    public void toggleSolved(String id) {
+        Problem p = problemRepository.findById(id).orElse(null);
+        if (p != null) {
+            p.setSolved(!p.isSolved());
+            problemRepository.save(p);
+        }
+    }
+    
+    
+    public void toggleFavorite(String id) {
+        Problem p = problemRepository.findById(id).orElse(null);
+        if (p != null) {
+            p.setFavorite(!p.isFavorite());
+            problemRepository.save(p);
+        }
+    }
 
     public Problem getProblemById(String id) {
         return problemRepository.findById(id).orElse(null);

@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.UserAuthentocation.entity.Problem;
 import com.example.UserAuthentocation.repository.mongo.ProblemRepository;
@@ -30,4 +33,17 @@ public class ProblemController {
         model.addAttribute("problems",problems);
         return "problems"; // problems.jsp
     }
+    
+    @PostMapping("/solved")
+    @ResponseBody
+    public void solved(@RequestParam String id) {
+    	problemService.toggleSolved(id);
+    }
+    
+    @PostMapping("/favorite")
+    @ResponseBody
+    public void favorite(@RequestParam String id) {
+    	problemService.toggleFavorite(id);
+    }
+
 }

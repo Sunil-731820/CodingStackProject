@@ -3,7 +3,8 @@ package com.example.UserAuthentocation.entity;
 public class Example {
 
 	private String input;
-	private String output;
+    private String output;
+    private String explanation;
 	public String getInput() {
 		return input;
 	}
@@ -16,7 +17,13 @@ public class Example {
 	public void setOutput(String output) {
 		this.output = output;
 	}
-	
-	
+	public String getExplanation() {
+		return explanation;
+	}
+	public void setExplanation(String explanation) {
+		this.explanation = explanation;
+	}
+    
+    
 
 }
