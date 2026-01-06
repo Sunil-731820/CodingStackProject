@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.example.UserAuthentocation.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+	
     Optional<User> findByEmail(String email);
 //    User loginWithGoogle(String email, String name);
     

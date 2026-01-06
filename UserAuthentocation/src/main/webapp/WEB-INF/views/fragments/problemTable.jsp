@@ -32,18 +32,25 @@ if (problems != null) {
 		</td>
 
 		<td>
-			<div class="action-buttons">
+		<a href="/NavigateToSolveproblem">Solve In Editor</a><br><br>
+		
+			<%-- <button onclick="markSolved('<%=p.getId()%>')"
+				style="background:<%=p.isSolved()?"green":"#ccc"%>;color:white">
+				✔ Solve</button>
 
-				<button class="action-btn solve-btn"
-					onclick="markSolved('<%=p.getId()%>')">✔ Solved</button>
-
-				<button class="action-btn fav-btn"
-					onclick="markFavorite('<%=p.getId()%>')">⭐ Favorite</button>
-
-			</div>
+			<button onclick="toggleFavorite('<%=p.getId()%>')"
+				style="color:<%=p.isFavorite()?"gold":"black"%>">★ Favorite
+			</button>
+ --%>			
 		</td>
-
-	</tr>
+		
+		<td>
+   
+</td>
+<!-- <td>
+<a href="/NavigateToSolveproblem">Solve In Editor</a><br><br>
+</td>
+ -->	</tr>
 
 	<%
     }

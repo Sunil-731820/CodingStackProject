@@ -5,6 +5,10 @@
     <title>DSA Problems</title>
 </head>
 <body>
+<b>Welcome Back : </b>
+ <span style="color: green;">
+        <%= session.getAttribute("userEmail") %>
+    </span>
 
 <%@ include file="fragments/header.jsp" %>
 <%@ include file="fragments/searchFilter.jsp" %>
@@ -12,5 +16,7 @@
 <%@ include file="fragments/pagination.jsp" %>
 <%@ include file="fragments/modal.jsp" %>
 <%@ include file="fragments/footer.jsp" %>
+
+
 </body>
 </html>

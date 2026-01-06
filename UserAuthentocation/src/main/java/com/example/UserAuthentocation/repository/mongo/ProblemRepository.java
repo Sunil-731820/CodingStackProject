@@ -11,4 +11,6 @@ import com.example.UserAuthentocation.entity.Problem;
 public interface ProblemRepository extends MongoRepository<Problem, String> {
     List<Problem> findByDifficulty(String difficulty);
     List<Problem> findByTagsContaining(String tag);
+    
+    List<Problem> findByTitleContainingIgnoreCase(String title);
 }

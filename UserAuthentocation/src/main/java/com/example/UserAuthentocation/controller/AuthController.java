@@ -19,6 +19,7 @@ import com.example.UserAuthentocation.repository.jpa.UserRepository;
 import com.example.UserAuthentocation.repository.jpa.VerificationTokenRepository;
 import com.example.UserAuthentocation.service.EmailService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 
@@ -72,9 +73,12 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public String login(String email, String password,Model model) {
+	public String login(String email, String password,Model model, HttpSession session) {
 		System.out.println("Calling the Login Methods:=");
 	    User user = userRepository.findByEmail(email).orElseThrow(() -> new InvalidCredentialsException("Invalid Email & passowrd Please check once"));
+	    String userEmail = user.getEmail();
+	    System.out.println("the User Email id is :"+userEmail);
+	    session.setAttribute("userEmail", userEmail);
 	    if (user == null) {
 	        model.addAttribute("errorMessage", "Invalid email or password");
 	        return "login";

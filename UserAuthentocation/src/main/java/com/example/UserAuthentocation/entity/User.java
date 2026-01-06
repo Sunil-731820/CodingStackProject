@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -26,6 +28,7 @@ public class User {
     
     @Email(message = "Invalid email format")
     @NotBlank(message = "Email is required")
+//    @Column(nullable = false, unique = true)
     private String email;
     
     @NotBlank(message = "Password is required")

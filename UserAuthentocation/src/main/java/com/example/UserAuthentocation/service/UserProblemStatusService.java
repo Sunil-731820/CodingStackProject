@@ -1,5 +1,7 @@
 package com.example.UserAuthentocation.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +12,7 @@ import com.example.UserAuthentocation.repository.mongo.UserProblemStatusReposito
 public class UserProblemStatusService {
 
     @Autowired
-    private UserProblemStatusRepository repo;
+	public UserProblemStatusRepository repo;
 
     public void markSolved(String email, String problemId) {
         UserProblemStatus status = repo
@@ -37,6 +39,14 @@ public class UserProblemStatusService {
     }
 
     public long solvedCount(String email) {
-        return repo.findByUserEmailAndSolvedTrue(email).size();
+        return repo.countByUserEmailAndSolvedTrue(email);
+    }
+
+    public List<UserProblemStatus> solvedProblems(String email) {
+        return repo.findByUserEmailAndSolvedTrue(email);
+    }
+
+    public List<UserProblemStatus> favoriteProblems(String email) {
+        return repo.findByUserEmailAndFavoriteTrue(email);
     }
 }

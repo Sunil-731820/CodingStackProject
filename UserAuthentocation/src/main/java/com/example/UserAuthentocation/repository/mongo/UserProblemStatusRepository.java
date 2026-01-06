@@ -16,4 +16,8 @@ public interface UserProblemStatusRepository
             String userEmail, String problemId);
 
     List<UserProblemStatus> findByUserEmailAndSolvedTrue(String userEmail);
+    
+    List<UserProblemStatus> findByUserEmailAndFavoriteTrue(String userEmail);
+
+    long countByUserEmailAndSolvedTrue(String userEmail);
 }
