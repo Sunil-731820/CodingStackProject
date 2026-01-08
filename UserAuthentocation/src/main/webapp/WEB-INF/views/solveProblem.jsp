@@ -33,20 +33,40 @@
             function addImport(importLine) {
                 const model = window.editor.getModel();
                 const currentValue = model.getValue();
+
+                // Skip if already present
                 if (currentValue.includes(importLine)) return;
+
+                // Save current cursor position
                 const currentSelection = window.editor.getSelection();
-                model.pushEditOperations([], [{
-                    range: new monaco.Range(1,1,1,1),
-                    text: importLine + "\n"
-                }], () => null);
-                window.editor.setSelection(currentSelection);
+
+                // Insert import at line 1, column 1
+                model.pushEditOperations(
+                    [],
+                    [{
+                        range: new monaco.Range(1,1,1,1),
+                        text: importLine + "\n"
+                    }],
+                    () => null
+                );
+
+                // Adjust selection down by one line
+                const newSelection = new monaco.Selection(
+                    currentSelection.startLineNumber + 1,
+                    currentSelection.startColumn,
+                    currentSelection.endLineNumber + 1,
+                    currentSelection.endColumn
+                );
+
+                window.editor.setSelection(newSelection);
             }
 
+            // Register command to add imports
             monaco.editor.registerCommand('editor.action.addImport', function(_, importLine) {
                 addImport(importLine);
             });
 
-            // Completion provider with auto-import commands (Scanner removed)
+            // Completion provider with auto-import commands
             monaco.languages.registerCompletionItemProvider('java', {
                 provideCompletionItems: () => ({
                     suggestions: [
@@ -92,7 +112,7 @@
                             documentation: 'java.util.HashMap',
                             command: { id: 'editor.action.addImport', title: 'Add Import', arguments: ['import java.util.HashMap;'] }
                         }
-                        // Scanner intentionally removed to avoid blocking code
+                        // Scanner intentionally omitted to avoid blocking input
                     ]
                 })
             });
