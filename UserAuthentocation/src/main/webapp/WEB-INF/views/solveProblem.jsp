@@ -76,16 +76,32 @@
                 fontSize: 14
             });
 
-            // Helper to insert import at the top if missing
+            // Helper to insert import at the top without moving cursor
             function addImport(importLine) {
                 const model = window.editor.getModel();
                 const currentValue = model.getValue();
-                if (currentValue.includes(importLine)) return; // already present
-                const newValue = importLine + "\n" + currentValue;
-                model.setValue(newValue);
+
+                // Skip if already present
+                if (currentValue.includes(importLine)) return;
+
+                // Save current cursor position
+                const currentSelection = window.editor.getSelection();
+
+                // Insert import at line 1, column 1
+                model.pushEditOperations(
+                    [],
+                    [{
+                        range: new monaco.Range(1,1,1,1),
+                        text: importLine + "\n"
+                    }],
+                    () => null
+                );
+
+                // Restore cursor position
+                window.editor.setSelection(currentSelection);
             }
 
-            // Register a command that can be triggered from completion items
+            // Register command to add imports
             monaco.editor.registerCommand('editor.action.addImport', function(_, importLine) {
                 addImport(importLine);
             });
