@@ -4,63 +4,16 @@
 <head>
     <title>Solved Problem</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        h2, p {
-            color: #333;
-        }
-        #language {
-            margin-bottom: 10px;
-            padding: 5px;
-            border-radius: 4px;
-        }
-
-        /* Editor container styled like LeetCode */
-        .editor-container {
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            background-color: #1e1e1e;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            overflow: hidden;
-        }
-        .editor-header {
-            background-color: #2d2d2d;
-            color: #fff;
-            padding: 8px 12px;
-            font-weight: bold;
-            border-bottom: 1px solid #444;
-        }
-        #editor {
-            height: 420px;
-        }
-        .editor-footer {
-            background-color: #2d2d2d;
-            padding: 8px 12px;
-            border-top: 1px solid #444;
-            text-align: right;
-        }
-        button {
-            padding: 8px 14px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; color: #333; }
+        h2, p { color: #333; }
+        #language { margin-bottom: 10px; padding: 5px; border-radius: 4px; }
+        .editor-container { border: 2px solid #ccc; border-radius: 8px; background-color: #1e1e1e; box-shadow: 0 4px 12px rgba(0,0,0,0.2); overflow: hidden; }
+        .editor-header { background-color: #2d2d2d; color: #fff; padding: 8px 12px; font-weight: bold; border-bottom: 1px solid #444; }
+        #editor { height: 420px; }
+        .editor-footer { background-color: #2d2d2d; padding: 8px 12px; border-top: 1px solid #444; text-align: right; }
+        button { padding: 8px 14px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; }
         button:hover { background-color: #45a049; }
-        #output {
-            background: #fff;
-            color: #333;
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 12px;
-            border: 1px solid #ccc;
-            white-space: pre-wrap;
-        }
+        #output { background: #fff; color: #333; padding: 10px; border-radius: 6px; margin-top: 12px; border: 1px solid #ccc; white-space: pre-wrap; }
     </style>
 
     <!-- Monaco Editor via CDN -->
@@ -80,33 +33,20 @@
             function addImport(importLine) {
                 const model = window.editor.getModel();
                 const currentValue = model.getValue();
-
-                // Skip if already present
                 if (currentValue.includes(importLine)) return;
-
-                // Save current cursor position
                 const currentSelection = window.editor.getSelection();
-/* 				alert("The Value of the currentSelection is :"+currentSelection);
- */                // Insert import at line 1, column 1
-                model.pushEditOperations(
-                    [],
-                    [{
-                        range: new monaco.Range(1,1,1,1),
-                        text: importLine + "\n"
-                    }],
-                    () => null
-                );
-
-                // Restore cursor position
+                model.pushEditOperations([], [{
+                    range: new monaco.Range(1,1,1,1),
+                    text: importLine + "\n"
+                }], () => null);
                 window.editor.setSelection(currentSelection);
             }
 
-            // Register command to add imports
             monaco.editor.registerCommand('editor.action.addImport', function(_, importLine) {
                 addImport(importLine);
             });
 
-            // Completion provider with auto-import commands
+            // Completion provider with auto-import commands (Scanner removed)
             monaco.languages.registerCompletionItemProvider('java', {
                 provideCompletionItems: () => ({
                     suggestions: [
@@ -115,78 +55,44 @@
                             kind: monaco.languages.CompletionItemKind.Class,
                             insertText: 'LocalDateTime',
                             documentation: 'java.time.LocalDateTime',
-                            command: {
-                                id: 'editor.action.addImport',
-                                title: 'Add Import',
-                                arguments: ['import java.time.LocalDateTime;']
-                            }
+                            command: { id: 'editor.action.addImport', title: 'Add Import', arguments: ['import java.time.LocalDateTime;'] }
                         },
                         {
                             label: 'DateTimeFormatter',
                             kind: monaco.languages.CompletionItemKind.Class,
                             insertText: 'DateTimeFormatter',
                             documentation: 'java.time.format.DateTimeFormatter',
-                            command: {
-                                id: 'editor.action.addImport',
-                                title: 'Add Import',
-                                arguments: ['import java.time.format.DateTimeFormatter;']
-                            }
+                            command: { id: 'editor.action.addImport', title: 'Add Import', arguments: ['import java.time.format.DateTimeFormatter;'] }
                         },
                         {
                             label: 'List',
                             kind: monaco.languages.CompletionItemKind.Class,
                             insertText: 'List',
                             documentation: 'java.util.List',
-                            command: {
-                                id: 'editor.action.addImport',
-                                title: 'Add Import',
-                                arguments: ['import java.util.List;']
-                            }
+                            command: { id: 'editor.action.addImport', title: 'Add Import', arguments: ['import java.util.List;'] }
                         },
                         {
                             label: 'ArrayList',
                             kind: monaco.languages.CompletionItemKind.Class,
                             insertText: 'ArrayList',
                             documentation: 'java.util.ArrayList',
-                            command: {
-                                id: 'editor.action.addImport',
-                                title: 'Add Import',
-                                arguments: ['import java.util.ArrayList;']
-                            }
+                            command: { id: 'editor.action.addImport', title: 'Add Import', arguments: ['import java.util.ArrayList;'] }
                         },
                         {
                             label: 'Map',
                             kind: monaco.languages.CompletionItemKind.Class,
                             insertText: 'Map',
                             documentation: 'java.util.Map',
-                            command: {
-                                id: 'editor.action.addImport',
-                                title: 'Add Import',
-                                arguments: ['import java.util.Map;']
-                            }
+                            command: { id: 'editor.action.addImport', title: 'Add Import', arguments: ['import java.util.Map;'] }
                         },
                         {
                             label: 'HashMap',
                             kind: monaco.languages.CompletionItemKind.Class,
                             insertText: 'HashMap',
                             documentation: 'java.util.HashMap',
-                            command: {
-                                id: 'editor.action.addImport',
-                                title: 'Add Import',
-                                arguments: ['import java.util.HashMap;']
-                            }
-                        },
-                        {
-                            label: 'Scanner',
-                            kind: monaco.languages.CompletionItemKind.Class,
-                            insertText: 'Scanner',
-                            documentation: 'java.util.Scanner',
-                            command: {
-                                id: 'editor.action.addImport',
-                                title: 'Add Import',
-                                arguments: ['import java.util.Scanner;']
-                            }
+                            command: { id: 'editor.action.addImport', title: 'Add Import', arguments: ['import java.util.HashMap;'] }
                         }
+                        // Scanner intentionally removed to avoid blocking code
                     ]
                 })
             });
@@ -209,7 +115,6 @@
             const code = window.editor.getValue();
             const outputEl = document.getElementById("output");
             outputEl.textContent = "Running...";
-
             try {
                 const res = await fetch("<%= request.getContextPath() %>/run", {
                     method: "POST",
@@ -234,7 +139,6 @@
         <option value="cpp">C++</option>
     </select>
 
-    <!-- Editor container with border like LeetCode -->
     <div class="editor-container">
         <div class="editor-header">Code Editor</div>
         <div id="editor"></div>
