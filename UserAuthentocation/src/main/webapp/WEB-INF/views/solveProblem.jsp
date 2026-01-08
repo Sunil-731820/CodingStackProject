@@ -86,8 +86,8 @@
 
                 // Save current cursor position
                 const currentSelection = window.editor.getSelection();
-
-                // Insert import at line 1, column 1
+/* 				alert("The Value of the currentSelection is :"+currentSelection);
+ */                // Insert import at line 1, column 1
                 model.pushEditOperations(
                     [],
                     [{
