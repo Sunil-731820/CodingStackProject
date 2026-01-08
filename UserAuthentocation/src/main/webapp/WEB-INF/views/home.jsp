@@ -26,9 +26,9 @@
 		<!-- SIDEBAR -->
 		<div class="sidebar">
 			<h4>Menu</h4>
-			<a href="home">🏠 Home</a> <a href="problems">📚 Problems</a> <a
-				href="daily">🔥 Daily Challenge</a> <a href="leaderboard">🏆
-				Leaderboard</a> <a href="profile">👤 Profile</a>
+			<a href="home">🏠 Home</a> <a href="problems">📚 Practice Java Problems</a> <a
+				href="daily">🔥 Daily Challenge</a> <a href="practiceSQLQuery">🏆
+				Practice SQL Query</a> <a href="praticePythonProblems">🏆Practice Python Problems</a>
 		</div>
 
 		<!-- CONTENT -->

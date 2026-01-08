@@ -24,6 +24,17 @@ public class Problem {
     private boolean favorite;
 
     private LocalDateTime dateAdded;
+    private List<String> supportedLanguages; // e.g. ["java", "python", "cpp"]
+    
+    
+
+	public List<String> getSupportedLanguages() {
+		return supportedLanguages;
+	}
+
+	public void setSupportedLanguages(List<String> supportedLanguages) {
+		this.supportedLanguages = supportedLanguages;
+	}
 
 	public String getId() {
 		return id;
