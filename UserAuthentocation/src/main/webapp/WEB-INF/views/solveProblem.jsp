@@ -23,7 +23,7 @@
         .editor-container {
             border: 2px solid #ccc;
             border-radius: 8px;
-            background-color: #1e1e1e; /* dark background for editor */
+            background-color: #1e1e1e;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             overflow: hidden;
         }
@@ -76,77 +76,100 @@
                 fontSize: 14
             });
 
-            // === Java Completion Provider with common imports and usage snippets ===
+            // Helper to insert import at the top if missing
+            function addImport(importLine) {
+                const model = window.editor.getModel();
+                const currentValue = model.getValue();
+                if (currentValue.includes(importLine)) return; // already present
+                const newValue = importLine + "\n" + currentValue;
+                model.setValue(newValue);
+            }
+
+            // Register a command that can be triggered from completion items
+            monaco.editor.registerCommand('editor.action.addImport', function(_, importLine) {
+                addImport(importLine);
+            });
+
+            // Completion provider with auto-import commands
             monaco.languages.registerCompletionItemProvider('java', {
                 provideCompletionItems: () => ({
                     suggestions: [
-                        // Common imports
-                        { label: 'import java.util.*', kind: monaco.languages.CompletionItemKind.Snippet, insertText: 'import java.util.*;', documentation: 'Import all java.util classes' },
-                        { label: 'import java.io.*', kind: monaco.languages.CompletionItemKind.Snippet, insertText: 'import java.io.*;', documentation: 'Import all java.io classes' },
-                        { label: 'import java.time.*', kind: monaco.languages.CompletionItemKind.Snippet, insertText: 'import java.time.*;', documentation: 'Import all java.time classes' },
-                        { label: 'import java.sql.*', kind: monaco.languages.CompletionItemKind.Snippet, insertText: 'import java.sql.*;', documentation: 'Import all java.sql classes' },
-                        { label: 'import javax.*', kind: monaco.languages.CompletionItemKind.Snippet, insertText: 'import javax.*;', documentation: 'Import all javax classes' },
-
-                        // Usage snippets (escaped placeholders!)
                         {
-                            label: 'LocalDateTime usage',
-                            kind: monaco.languages.CompletionItemKind.Snippet,
-                            insertText: [
-                                'import java.time.LocalDateTime;',
-                                '',
-                                'LocalDateTime \\${1:now} = LocalDateTime.now();'
-                            ].join('\n'),
-                            insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-                            documentation: 'Import and use LocalDateTime'
+                            label: 'LocalDateTime',
+                            kind: monaco.languages.CompletionItemKind.Class,
+                            insertText: 'LocalDateTime',
+                            documentation: 'java.time.LocalDateTime',
+                            command: {
+                                id: 'editor.action.addImport',
+                                title: 'Add Import',
+                                arguments: ['import java.time.LocalDateTime;']
+                            }
                         },
                         {
-                            label: 'DateTimeFormatter usage',
-                            kind: monaco.languages.CompletionItemKind.Snippet,
-                            insertText: [
-                                'import java.time.format.DateTimeFormatter;',
-                                '',
-                                'DateTimeFormatter \\${1:formatter} = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");'
-                            ].join('\n'),
-                            insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-                            documentation: 'Import and use DateTimeFormatter'
+                            label: 'DateTimeFormatter',
+                            kind: monaco.languages.CompletionItemKind.Class,
+                            insertText: 'DateTimeFormatter',
+                            documentation: 'java.time.format.DateTimeFormatter',
+                            command: {
+                                id: 'editor.action.addImport',
+                                title: 'Add Import',
+                                arguments: ['import java.time.format.DateTimeFormatter;']
+                            }
                         },
                         {
-                            label: 'List usage',
-                            kind: monaco.languages.CompletionItemKind.Snippet,
-                            insertText: [
-                                'import java.util.List;',
-                                'import java.util.ArrayList;',
-                                '',
-                                'List<String> \\${1:list} = new ArrayList<>();',
-                                '\\${1:list}.add("item");'
-                            ].join('\n'),
-                            insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-                            documentation: 'Import and use List/ArrayList'
+                            label: 'List',
+                            kind: monaco.languages.CompletionItemKind.Class,
+                            insertText: 'List',
+                            documentation: 'java.util.List',
+                            command: {
+                                id: 'editor.action.addImport',
+                                title: 'Add Import',
+                                arguments: ['import java.util.List;']
+                            }
                         },
                         {
-                            label: 'Map usage',
-                            kind: monaco.languages.CompletionItemKind.Snippet,
-                            insertText: [
-                                'import java.util.Map;',
-                                'import java.util.HashMap;',
-                                '',
-                                'Map<String, Integer> \\${1:map} = new HashMap<>();',
-                                '\\${1:map}.put("key", 1);'
-                            ].join('\n'),
-                            insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-                            documentation: 'Import and use Map/HashMap'
+                            label: 'ArrayList',
+                            kind: monaco.languages.CompletionItemKind.Class,
+                            insertText: 'ArrayList',
+                            documentation: 'java.util.ArrayList',
+                            command: {
+                                id: 'editor.action.addImport',
+                                title: 'Add Import',
+                                arguments: ['import java.util.ArrayList;']
+                            }
                         },
                         {
-                            label: 'Scanner usage',
-                            kind: monaco.languages.CompletionItemKind.Snippet,
-                            insertText: [
-                                'import java.util.Scanner;',
-                                '',
-                                'Scanner \\${1:sc} = new Scanner(System.in);',
-                                'String input = \\${1:sc}.nextLine();'
-                            ].join('\n'),
-                            insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-                            documentation: 'Import and use Scanner'
+                            label: 'Map',
+                            kind: monaco.languages.CompletionItemKind.Class,
+                            insertText: 'Map',
+                            documentation: 'java.util.Map',
+                            command: {
+                                id: 'editor.action.addImport',
+                                title: 'Add Import',
+                                arguments: ['import java.util.Map;']
+                            }
+                        },
+                        {
+                            label: 'HashMap',
+                            kind: monaco.languages.CompletionItemKind.Class,
+                            insertText: 'HashMap',
+                            documentation: 'java.util.HashMap',
+                            command: {
+                                id: 'editor.action.addImport',
+                                title: 'Add Import',
+                                arguments: ['import java.util.HashMap;']
+                            }
+                        },
+                        {
+                            label: 'Scanner',
+                            kind: monaco.languages.CompletionItemKind.Class,
+                            insertText: 'Scanner',
+                            documentation: 'java.util.Scanner',
+                            command: {
+                                id: 'editor.action.addImport',
+                                title: 'Add Import',
+                                arguments: ['import java.util.Scanner;']
+                            }
                         }
                     ]
                 })
