@@ -29,7 +29,7 @@ if (problems != null) {
 		</td>
 
 		<td><%= p.getTags() != null ? String.join(", ", p.getTags()) : "" %>
-		</td>
+		</td> 
 
 		<td>
 		<a href="/solve/<%=p.getId()%>">Solve In Editor</a>

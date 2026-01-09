@@ -1,8 +1,10 @@
 package com.example.UserAuthentocation.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -109,6 +111,16 @@ public class ProblemController {
         model.addAttribute("problem", problem);
         return "editor"; // JSP page with Monaco + problem statement
     }
+    
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Problem> getProblem(@PathVariable String id) {
+        return problemRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+
 
     
 

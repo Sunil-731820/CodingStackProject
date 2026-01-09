@@ -17,8 +17,19 @@ public class SolveProblemController {
 
     @GetMapping("/solve/{id}")
     public String solveProblem(@PathVariable String id, Model model) {
+    	System.out.println("Calling the Solve problems methods Okay :=");
         Problem problem = problemRepository.findById(id).orElse(null);
+        System.out.println("The Title of the problem is :"+problem.getTitle());
+        System.out.println("The Value of the Description of the problems :"+problem.getDescription());
         model.addAttribute("problem", problem);
-        return "SolveProblem"; // maps to SolveProblem.jsp
+        return "solveProblem"; // maps to SolveProblem.jsp
     }
+    
+	/*
+	 * @GetMapping("/solve/{id}") public String solveProblem(@PathVariable String
+	 * id, Model model) { Problem problem = problemRepository.findById(id)
+	 * .orElseThrow(() -> new RuntimeException("Problem not found"));
+	 * model.addAttribute("problem", problem); return "solved"; // solved.jsp }
+	 */
+
 }

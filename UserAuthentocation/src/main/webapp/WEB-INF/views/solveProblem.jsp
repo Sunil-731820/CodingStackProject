@@ -147,11 +147,13 @@
                 outputEl.textContent = "Error calling backend: " + err.message;
             }
         }
+
+        
     </script>
 </head>
 <body>
     <h2>${problem.title}</h2>
-    <p>${problem.description}</p>
+<p>${problem.description}</p>
 
     <select id="language">
         <option value="java">Java</option>
