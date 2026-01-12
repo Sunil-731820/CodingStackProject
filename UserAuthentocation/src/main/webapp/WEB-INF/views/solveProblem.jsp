@@ -4,7 +4,7 @@
 <head>
     <title>Solved Problem</title>
     <style>
-body {
+    body {
         margin: 0;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background: #f9fafb;
@@ -16,16 +16,16 @@ body {
         height: 100vh; /* full window height */
     }
 
-    /* Left side: problem description */
+    /* Left side: problem description (smaller width) */
     .problem-card {
-        flex: 1;
+        flex: 0.35; /* only ~35% of screen */
         background: #fff;
         border-right: 1px solid #e5e7eb;
         padding: 20px;
         overflow-y: auto;
     }
     .problem-id { font-size: 14px; color: #6b7280; font-weight: bold; }
-    .problem-title { font-size: 22px; font-weight: 600; color: #2563eb; margin: 10px 0; }
+    .problem-title { font-size: 20px; font-weight: 600; color: #2563eb; margin: 10px 0; }
     .difficulty-badge {
         padding: 4px 10px;
         border-radius: 12px;
@@ -38,7 +38,7 @@ body {
     .hard { background: #ef4444; }
 
     .problem-description {
-        font-size: 15px;
+        font-size: 14px;
         color: #374151;
         line-height: 1.6;
         margin-top: 15px;
@@ -51,13 +51,14 @@ body {
         margin-top: 20px;
         display: flex;
         gap: 10px;
+        flex-wrap: wrap;
     }
     .action-btn {
-        padding: 8px 14px;
+        padding: 6px 12px;
         border: none;
         border-radius: 6px;
         cursor: pointer;
-        font-size: 14px;
+        font-size: 13px;
         transition: all 0.2s ease;
     }
     .solve-btn { background: #2563eb; color: #fff; }
@@ -67,9 +68,9 @@ body {
     .copy-btn { background: #10b981; color: #fff; }
     .copy-btn:hover { background: #059669; }
 
-    /* Right side: editor */
+    /* Right side: editor (larger width) */
     .editor-section {
-        flex: 1;
+        flex: 0.65; /* ~65% of screen */
         display: flex;
         flex-direction: column;
         background: #111827;
@@ -331,7 +332,7 @@ body {
 <!-- </div>
  -->
  
- <div class="split-container">
+<%--  <div class="split-container">
     <!-- Left: Problem -->
     <div class="problem-card">
 <!--         <div class="problem-id">Problem #${problem.id}</div>
@@ -357,6 +358,43 @@ body {
     </div>
 
     <!-- Right: Editor -->
+    <div class="editor-section">
+        <div class="editor-header">
+            <span>Code Editor</span>
+            <select id="language">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+            </select>
+        </div>
+        <div id="editor"></div>
+        <div class="editor-footer">
+            <button onclick="runCode()">Run Code</button>
+        </div>
+        <pre id="output">Output will appear here...</pre>
+    </div>
+</div>
+ --%> 
+ 
+ <div class="split-container">
+    <!-- Left: Problem (smaller) -->
+    <div class="problem-card">
+<!--         <div class="problem-id">Problem #${problem.id}</div>
+ -->        <div class="problem-title">${problem.title}</div>
+        <span class="difficulty-badge ${problem.difficulty.toLowerCase()}">${problem.difficulty}</span>
+
+        <div class="problem-description" id="problemDesc">${problem.description}</div>
+
+        <div class="tags">Tags: ${problem.tags}</div>
+
+        <div class="problem-actions">
+            <button class="action-btn solve-btn" onclick="window.location.href='/solve/${problem.id}'">Solve In Editor</button>
+            <button class="action-btn favorite-btn" onclick="toggleFavorite(${problem.id})">★ Favorite</button>
+            <button class="action-btn copy-btn" onclick="copyDescription()">📋 Copy Statement</button>
+        </div>
+    </div>
+
+    <!-- Right: Editor (larger) -->
     <div class="editor-section">
         <div class="editor-header">
             <span>Code Editor</span>
