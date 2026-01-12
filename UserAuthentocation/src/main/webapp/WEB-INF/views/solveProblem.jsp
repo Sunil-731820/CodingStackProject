@@ -4,33 +4,28 @@
 <head>
     <title>Solved Problem</title>
     <style>
-    .problem-card {
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        margin: 20px auto;
-        max-width: 800px;
+body {
+        margin: 0;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f9fafb;
+    }
+
+    /* Split container */
+    .split-container {
+        display: flex;
+        height: 100vh; /* full window height */
+    }
+
+    /* Left side: problem description */
+    .problem-card {
+        flex: 1;
+        background: #fff;
+        border-right: 1px solid #e5e7eb;
         padding: 20px;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        overflow-y: auto;
     }
-    .problem-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-    }
-
-    .problem-id {
-        font-size: 14px;
-        color: #6b7280;
-        font-weight: bold;
-    }
-    .problem-title {
-        font-size: 22px;
-        font-weight: 600;
-        color: #2563eb;
-        margin: 10px 0;
-    }
-
+    .problem-id { font-size: 14px; color: #6b7280; font-weight: bold; }
+    .problem-title { font-size: 22px; font-weight: 600; color: #2563eb; margin: 10px 0; }
     .difficulty-badge {
         padding: 4px 10px;
         border-radius: 12px;
@@ -42,31 +37,15 @@
     .medium { background: #f59e0b; }
     .hard { background: #ef4444; }
 
-    /* ✅ Full height description panel */
     .problem-description {
         font-size: 15px;
         color: #374151;
         line-height: 1.6;
         margin-top: 15px;
-        height: calc(100vh - 250px); /* full window height minus header/buttons */
-        overflow-y: auto;
-        padding: 15px;
-        border: 1px solid #e5e7eb;
-        border-radius: 6px;
-        background: #f9fafb;
+        white-space: pre-wrap;
     }
 
-    /* Custom scrollbar */
-    .problem-description::-webkit-scrollbar { width: 8px; }
-    .problem-description::-webkit-scrollbar-track { background: #f3f4f6; border-radius: 4px; }
-    .problem-description::-webkit-scrollbar-thumb { background: #9ca3af; border-radius: 4px; }
-    .problem-description::-webkit-scrollbar-thumb:hover { background: #6b7280; }
-
-    .tags {
-        margin-top: 10px;
-        font-size: 13px;
-        color: #6b7280;
-    }
+    .tags { margin-top: 10px; font-size: 13px; color: #6b7280; }
 
     .problem-actions {
         margin-top: 20px;
@@ -88,8 +67,61 @@
     .copy-btn { background: #10b981; color: #fff; }
     .copy-btn:hover { background: #059669; }
 
+    /* Right side: editor */
+    .editor-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background: #111827;
+    }
+    .editor-header {
+        background: #1f2937;
+        color: #fff;
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .editor-header select {
+        background: #374151;
+        color: #fff;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    #editor {
+        flex: 1;
+    }
+    .editor-footer {
+        background: #1f2937;
+        padding: 10px;
+        text-align: right;
+    }
+    .editor-footer button {
+        background: #2563eb;
+        color: #fff;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .editor-footer button:hover { background: #1e40af; }
 
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; color: #333; }
+    /* Output console */
+    #output {
+        background: #111827;
+        color: #10b981;
+        padding: 15px;
+        border-top: 1px solid #374151;
+        font-family: monospace;
+        white-space: pre-wrap;
+        min-height: 100px;
+    }
+
+
+
+        /* body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; color: #333; }
         h2, p { color: #333; }
         #language { margin-bottom: 10px; padding: 5px; border-radius: 4px; }
         .editor-container { border: 2px solid #ccc; border-radius: 8px; background-color: #1e1e1e; box-shadow: 0 4px 12px rgba(0,0,0,0.2); overflow: hidden; }
@@ -98,7 +130,7 @@
         .editor-footer { background-color: #2d2d2d; padding: 8px 12px; border-top: 1px solid #444; text-align: right; }
         button { padding: 8px 14px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; }
         button:hover { background-color: #45a049; }
-        #output { background: #fff; color: #333; padding: 10px; border-radius: 6px; margin-top: 12px; border: 1px solid #ccc; white-space: pre-wrap; }
+        #output { background: #fff; color: #333; padding: 10px; border-radius: 6px; margin-top: 12px; border: 1px solid #ccc; white-space: pre-wrap; } */
     </style>
 
     <!-- Monaco Editor via CDN -->
@@ -233,11 +265,18 @@
             }
         }
 
+        function copyDescription() {
+            const desc = document.getElementById("problemDesc").innerText;
+            navigator.clipboard.writeText(desc).then(() => {
+                alert("Problem statement copied to clipboard!");
+            });
+        }
+    		
         
     </script>
 </head>
 <body>
-<div class="problem-card">
+<%-- <div class="problem-card">
     <div class="problem-id">Problem #${problem.id}</div>
     <div class="problem-title">${problem.title}</div>
     <span class="difficulty-badge ${problem.difficulty.toLowerCase()}">${problem.difficulty}</span>
@@ -259,7 +298,22 @@
         </button>
     </div>
 </div>
+    <select id="language">
+        <option value="java">Java</option>
+        <option value="python">Python</option>
+        <option value="cpp">C++</option>
+    </select>
 
+    <div class="editor-container">
+        <div class="editor-header">Code Editor</div>
+        <div id="editor"></div>
+        <div class="editor-footer">
+            <button onclick="runCode()">Run Code</button>
+        </div>
+    </div>
+
+    <pre id="output"></pre>
+ --%>
 
 <%-- <div class="problem-card">
     <div class="problem-id">Problem #${problem.id}</div>
@@ -276,20 +330,50 @@
     </div> --%>
 <!-- </div>
  -->
-    <select id="language">
-        <option value="java">Java</option>
-        <option value="python">Python</option>
-        <option value="cpp">C++</option>
-    </select>
+ 
+ <div class="split-container">
+    <!-- Left: Problem -->
+    <div class="problem-card">
+<!--         <div class="problem-id">Problem #${problem.id}</div>
+ -->        <div class="problem-title">${problem.title}</div>
+        <span class="difficulty-badge ${problem.difficulty.toLowerCase()}">${problem.difficulty}</span>
 
-    <div class="editor-container">
-        <div class="editor-header">Code Editor</div>
+        <!-- Full-height scrollable description -->
+        <div class="problem-description" id="problemDesc">${problem.description}</div>
+
+        <div class="tags">Tags: ${problem.tags}</div>
+
+        <div class="problem-actions">
+            <button class="action-btn solve-btn" onclick="window.location.href='/solve/${problem.id}'">
+                Solve In Editor
+            </button>
+            <button class="action-btn favorite-btn" onclick="toggleFavorite(${problem.id})">
+                ★ Favorite
+            </button>
+            <button class="action-btn copy-btn" onclick="copyDescription()">
+                📋 Copy Statement
+            </button>
+        </div>
+    </div>
+
+    <!-- Right: Editor -->
+    <div class="editor-section">
+        <div class="editor-header">
+            <span>Code Editor</span>
+            <select id="language">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+            </select>
+        </div>
         <div id="editor"></div>
         <div class="editor-footer">
             <button onclick="runCode()">Run Code</button>
         </div>
+        <pre id="output">Output will appear here...</pre>
     </div>
+</div>
+ 
 
-    <pre id="output"></pre>
 </body>
 </html>
