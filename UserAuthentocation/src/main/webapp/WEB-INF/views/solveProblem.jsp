@@ -4,6 +4,74 @@
 <head>
     <title>Solved Problem</title>
     <style>
+    .problem-card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin: 20px auto;
+        max-width: 800px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .problem-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+
+    .problem-id {
+        font-size: 14px;
+        color: #6b7280;
+        font-weight: bold;
+    }
+    .problem-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #2563eb;
+        margin: 10px 0;
+    }
+    .problem-description {
+        font-size: 15px;
+        color: #374151;
+        line-height: 1.6;
+        margin-top: 15px;
+    }
+
+    .difficulty-badge {
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+        color: #fff;
+    }
+    .easy { background: #10b981; }
+    .medium { background: #f59e0b; }
+    .hard { background: #ef4444; }
+
+    .tags {
+        margin-top: 10px;
+        font-size: 13px;
+        color: #6b7280;
+    }
+
+    .problem-actions {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+    }
+    .action-btn {
+        padding: 8px 14px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s ease;
+    }
+    .solve-btn { background: #2563eb; color: #fff; }
+    .solve-btn:hover { background: #1e40af; }
+    .favorite-btn { background: #f3f4f6; color: #f59e0b; border: 1px solid #f59e0b; }
+    .favorite-btn:hover { background: #fef3c7; }
+
         body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; color: #333; }
         h2, p { color: #333; }
         #language { margin-bottom: 10px; padding: 5px; border-radius: 4px; }
@@ -152,9 +220,42 @@
     </script>
 </head>
 <body>
-    <h2>${problem.title}</h2>
-<p>${problem.description}</p>
+<div class="problem-card">
+<!--     <div class="problem-id">Problem #${problem.id}</div>
+ -->    <div class="problem-title">${problem.title}</div> &nbsp;&nbsp;&nbsp;
+    <span class="difficulty-badge ${problem.difficulty.toLowerCase()}">${problem.difficulty}</span>
 
+    <!--  Full description is always visible here -->
+    <div class="problem-description">${problem.description}</div>
+
+<%--     <div class="tags">Tags: ${problem.tags}</div>
+ --%>
+    <%-- <div class="problem-actions">
+        <button class="action-btn solve-btn" onclick="window.location.href='/solve/${problem.id}'">
+            Solve In Editor
+        </button>
+        <button class="action-btn favorite-btn" onclick="toggleFavorite(${problem.id})">
+            ★ Favorite
+        </button>
+    </div> --%>
+</div>
+
+
+<%-- <div class="problem-card">
+    <div class="problem-id">Problem #${problem.id}</div>
+    <div class="problem-title">${problem.title}</div>
+    <div class="problem-description">${problem.description}</div>
+ --%>
+    <%-- <div class="problem-actions">
+        <button class="action-btn solve-btn" onclick="window.location.href='/solve/${problem.id}'">
+            Solve In Editor
+        </button>
+        <button class="action-btn favorite-btn" onclick="toggleFavorite(${problem.id})">
+            ★ Favorite
+        </button>
+    </div> --%>
+<!-- </div>
+ -->
     <select id="language">
         <option value="java">Java</option>
         <option value="python">Python</option>
