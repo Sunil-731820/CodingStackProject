@@ -30,12 +30,6 @@
         color: #2563eb;
         margin: 10px 0;
     }
-    .problem-description {
-        font-size: 15px;
-        color: #374151;
-        line-height: 1.6;
-        margin-top: 15px;
-    }
 
     .difficulty-badge {
         padding: 4px 10px;
@@ -47,6 +41,26 @@
     .easy { background: #10b981; }
     .medium { background: #f59e0b; }
     .hard { background: #ef4444; }
+
+    /* ✅ Full height description panel */
+    .problem-description {
+        font-size: 15px;
+        color: #374151;
+        line-height: 1.6;
+        margin-top: 15px;
+        height: calc(100vh - 250px); /* full window height minus header/buttons */
+        overflow-y: auto;
+        padding: 15px;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        background: #f9fafb;
+    }
+
+    /* Custom scrollbar */
+    .problem-description::-webkit-scrollbar { width: 8px; }
+    .problem-description::-webkit-scrollbar-track { background: #f3f4f6; border-radius: 4px; }
+    .problem-description::-webkit-scrollbar-thumb { background: #9ca3af; border-radius: 4px; }
+    .problem-description::-webkit-scrollbar-thumb:hover { background: #6b7280; }
 
     .tags {
         margin-top: 10px;
@@ -71,6 +85,9 @@
     .solve-btn:hover { background: #1e40af; }
     .favorite-btn { background: #f3f4f6; color: #f59e0b; border: 1px solid #f59e0b; }
     .favorite-btn:hover { background: #fef3c7; }
+    .copy-btn { background: #10b981; color: #fff; }
+    .copy-btn:hover { background: #059669; }
+
 
         body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; color: #333; }
         h2, p { color: #333; }
@@ -221,23 +238,26 @@
 </head>
 <body>
 <div class="problem-card">
-<!--     <div class="problem-id">Problem #${problem.id}</div>
- -->    <div class="problem-title">${problem.title}</div> &nbsp;&nbsp;&nbsp;
+    <div class="problem-id">Problem #${problem.id}</div>
+    <div class="problem-title">${problem.title}</div>
     <span class="difficulty-badge ${problem.difficulty.toLowerCase()}">${problem.difficulty}</span>
 
-    <!--  Full description is always visible here -->
-    <div class="problem-description">${problem.description}</div>
+    <!--  Full-height scrollable description -->
+    <div class="problem-description" id="problemDesc">${problem.description}</div>
 
-<%--     <div class="tags">Tags: ${problem.tags}</div>
- --%>
-    <%-- <div class="problem-actions">
+    <div class="tags">Tags: ${problem.tags}</div>
+
+    <div class="problem-actions">
         <button class="action-btn solve-btn" onclick="window.location.href='/solve/${problem.id}'">
             Solve In Editor
         </button>
         <button class="action-btn favorite-btn" onclick="toggleFavorite(${problem.id})">
             ★ Favorite
         </button>
-    </div> --%>
+        <button class="action-btn copy-btn" onclick="copyDescription()">
+            📋 Copy Statement
+        </button>
+    </div>
 </div>
 
 
