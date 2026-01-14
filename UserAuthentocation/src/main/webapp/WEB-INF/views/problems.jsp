@@ -145,8 +145,8 @@
     <!-- Navigation bar -->
 <div class="navbar">
     <h1>DSA Problem Dashboard</h1>
-    <div class="welcome">
-        Welcome Back: <span><%= session.getAttribute("userEmail") %></span>
+    <div class="welcome" style="text-align:right; padding-right:30px;">
+        Welcome: <span><%= session.getAttribute("userEmail") %></span>
     </div>
 </div>
     

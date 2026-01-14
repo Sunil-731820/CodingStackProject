@@ -216,6 +216,15 @@
         font-weight: 600;
     }
     
+    .problem-id,
+.problem-title,
+.difficulty-badge,
+.problem-description,
+.tags {
+    font-weight: bold;
+}
+    
+    
 
         /* body { font-family: Arial, sans-serif; margin: 20px; background-color: #f5f5f5; color: #333; }
         h2, p { color: #333; }
@@ -304,6 +313,41 @@
                             documentation: 'java.util.List',
                             command: { id: 'editor.action.addImport', title: 'Add Import', arguments: ['import java.util.List;'] }
                         },
+                        {
+                            label: 'Set',
+                            kind: monaco.languages.CompletionItemKind.Class,
+                            insertText: 'Set',
+                            documentation: 'java.util.Set',
+                            command: { 
+                                id: 'editor.action.addImport', 
+                                title: 'Add Import', 
+                                arguments: ['import java.util.Set;'] 
+                            }
+                        },
+                        {
+                            label: 'HashSet',
+                            kind: monaco.languages.CompletionItemKind.Class,
+                            insertText: 'HashSet',
+                            documentation: 'java.util.HashSet',
+                            command: { 
+                                id: 'editor.action.addImport', 
+                                title: 'Add Import', 
+                                arguments: ['import java.util.HashSet;'] 
+                            }
+                        },
+                        {
+                            label: 'Iterator',
+                            kind: monaco.languages.CompletionItemKind.Class,
+                            insertText: 'Iterator',
+                            documentation: 'java.util.Iterator',
+                            command: { 
+                                id: 'editor.action.addImport', 
+                                title: 'Add Import', 
+                                arguments: ['import java.util.Iterator;'] 
+                            }
+                        },
+                                                
+                                                                                
                         {
                             label: 'Stream',
                             kind: monaco.languages.CompletionItemKind.Class,
@@ -429,7 +473,7 @@ async function submitCode() {
         function copyDescription() {
             const desc = document.getElementById("problemDesc").innerText;
             navigator.clipboard.writeText(desc).then(() => {
-                alert("Problem statement copied to clipboard!");
+                
             });
         }
 
@@ -451,7 +495,7 @@ async function submitCode() {
             	document.getElementById("output").textContent="";
                 }else{
                 	document.getElementById("output").textContent = "block";
-                    }
+                }
            }
 
        
@@ -484,18 +528,18 @@ window.onload = () => {
 <div class="split-container">
     <!-- Left: Problem -->
     <div class="problem-card" id="problemPanel">
-         <div class="problem-id">Problem #${problem.id}</div>
-        <div class="problem-title">${problem.title}</div>
+<!--          <div class="problem-id">Problem #${problem.id}</div>
+ -->        <div class="problem-title">${problem.title}</div>
         <span class="difficulty-badge ${problem.difficulty.toLowerCase()}">${problem.difficulty}</span>
 
         <div class="problem-description" id="problemDesc">${problem.description}</div>
 
         <div class="tags">Tags: ${problem.tags}</div>
-        <div id="timer">Time: 00:00</div>
+        <div id="timer" class="problem-description">Time: 00:00</div>
 
         <div class="problem-actions">
             <button class="action-btn solve-btn" onclick="window.location.href='/solve/${problem.id}'">Solve In Editor</button>
-            <button class="action-btn favorite-btn" onclick="toggleFavorite(${problem.id})">★ Favorite</button>
+            <button class="action-btn favorite-btn" onclick="window.location.href='/problems/favorite/${problem.id}'">★ Favorite</button>
             <button class="action-btn copy-btn" onclick="copyDescription()">📋 Copy Statement</button>
         </div>
     </div>
