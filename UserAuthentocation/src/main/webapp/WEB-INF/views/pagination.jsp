@@ -129,7 +129,7 @@
     <% } %>
 
     <!-- Next button -->
-    <% if (currentPage + 1 < totalPages) { %>
+    <% if (currentPage  < totalPages) { %>
         <a href="<%= ctx %>/listOfproblems?page=<%= currentPage + 1 %>">
             <button id="nextBtn">Next</button>
         </a>

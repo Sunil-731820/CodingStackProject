@@ -24,13 +24,16 @@ public class ProblemPaginationController {
     
     @GetMapping("/listOfproblems")
     public String listProblems(@RequestParam(defaultValue = "0") int page, Model model) {
-        int pageSize = 20;
+    	System.out.println("Calling the listof the Problems method from controller class :="+page);
+        int pageSize = 10;
         Page<Problem> problemPage = problemRepository.findAll(PageRequest.of(page, pageSize));
 
         model.addAttribute("problems", problemPage.getContent());
         model.addAttribute("currentPage", problemPage.getNumber());
         model.addAttribute("totalPages", problemPage.getTotalPages());
-
+        System.out.println("The value of the current page is :="+problemPage.getNumber());
+        System.out.println("The Value of the total page is :="+problemPage.getTotalPages());
+        System.out.println("problem size is :="+problemPage.getSize());
         return "problems"; // forwards to problems.jsp
     }
 
