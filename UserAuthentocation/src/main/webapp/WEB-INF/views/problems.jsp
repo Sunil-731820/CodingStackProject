@@ -162,7 +162,7 @@
         </div>
 
         <div class="card">
-            <%@ include file="fragments/pagination.jsp" %>
+            <%@ include file="pagination.jsp" %>
         </div>
 
         <%@ include file="fragments/modal.jsp" %>

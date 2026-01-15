@@ -3,7 +3,11 @@ package com.example.UserAuthentocation.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.example.UserAuthentocation.entity.Problem;
@@ -24,6 +28,20 @@ public class ProblemService {
     	System.out.println("The Size of the Data after fetching from The mongoDB is :"+listofData.size());
         return problemRepository.findAll();
     }
+    
+//    for Paginations okay 
+    public Page<Problem> getProblems(Pageable pageable) {
+        Query query = new Query().with(pageable);
+
+        // Fetch paginated data
+        List<Problem> problems = mongoTemplate.find(query, Problem.class);
+
+        // Count total documents
+        long total = mongoTemplate.count(new Query(), Problem.class);
+
+        return new PageImpl<>(problems, pageable, total);
+    }
+
     
     public void toggleSolved(String id) {
         Problem p = problemRepository.findById(id).orElse(null);
