@@ -1,3 +1,5 @@
+<%@page import="com.example.UserAuthentocation.entity.Problem"%>
+<%@page import="java.util.List"%>
 <%@ page import="java.lang.Integer" %>
 <%-- <%
     int currentPage = (Integer) request.getAttribute("currentPage");
@@ -5,7 +7,7 @@
     String ctx = request.getContextPath();
 %> --%>
 
-<%
+<%-- <%
     Integer currentPageObj = (Integer) request.getAttribute("currentPage");
     Integer totalPagesObj = (Integer) request.getAttribute("totalPages");
 
@@ -24,7 +26,20 @@
         startPage = Math.max(0, endPage - 2);
     }
 %>
+ --%>
+<%
+    List<Problem> problems1 = (List<Problem>) request.getAttribute("problems");
+    Integer currentPageObj = (Integer) request.getAttribute("currentPage");
+    Integer totalPagesObj  = (Integer) request.getAttribute("totalPages");
 
+    int currentPage = currentPageObj != null ? currentPageObj : 0;
+    int totalPages  = totalPagesObj != null ? totalPagesObj : 1;
+
+    String ctx = request.getContextPath();
+/*     out.println("The value of the currentPage is :="+currentPage);
+    out.println("The value of the totalPages is :="+totalPages);
+ */%>
+ 
 
 <style>
     .pagination {
@@ -71,7 +86,7 @@
     <button id="nextBtn" onclick="goNext()">Next</button>
 </div> 
  -->
-<div class="pagination">
+<%-- <div class="pagination">
     <!-- Prev button -->
     <% if (currentPage > 0) { %>
         <a href="<%= ctx %>/problems?page=<%= currentPage - 1 %>">
@@ -101,7 +116,28 @@
         <button id="nextBtn" disabled>Next</button>
     <% } %>
 </div>
+ --%>
+ 
+<div class="pagination">
+    <!-- Prev button -->
+    <% if (currentPage > 0) { %>
+        <a href="<%= ctx %>/listOfproblems?page=<%= currentPage - 1 %>">
+            <button id="prevBtn">Previous</button>
+        </a>
+    <% } else { %>
+        <button id="prevBtn" disabled>Previous</button>
+    <% } %>
 
+    <!-- Next button -->
+    <% if (currentPage + 1 < totalPages) { %>
+        <a href="<%= ctx %>/listOfproblems?page=<%= currentPage + 1 %>">
+            <button id="nextBtn">Next</button>
+        </a>
+    <% } else { %>
+        <button id="nextBtn" disabled>Next</button>
+    <% } %>
+</div>
+ 
 
 <%-- <div class="pagination">
     <!-- Previous -->

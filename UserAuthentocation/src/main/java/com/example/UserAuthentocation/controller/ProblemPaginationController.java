@@ -21,22 +21,17 @@ public class ProblemPaginationController {
     
     @Autowired
     private ProblemService problemService;
+    
     @GetMapping("/listOfproblems")
     public String listProblems(@RequestParam(defaultValue = "0") int page, Model model) {
-        int pageSize = 20; // 20 per page
-        PageRequest pageable = PageRequest.of(page, pageSize);
-
-        Page<Problem> problemPage = problemService.getProblems(pageable);
+        int pageSize = 20;
+        Page<Problem> problemPage = problemRepository.findAll(PageRequest.of(page, pageSize));
 
         model.addAttribute("problems", problemPage.getContent());
         model.addAttribute("currentPage", problemPage.getNumber());
         model.addAttribute("totalPages", problemPage.getTotalPages());
-        model.addAttribute("totalElements", problemPage.getTotalElements());
-        System.out.println("Total elements: " + problemPage.getTotalElements());
-   	  System.out.println("Total pages: " + problemPage.getTotalPages());
-   	  System.out.println("Current page: " + problemPage.getNumber());
 
-        return "problems";
+        return "problems"; // forwards to problems.jsp
     }
 
 

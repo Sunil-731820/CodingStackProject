@@ -30,17 +30,21 @@ public class ProblemService {
     }
     
 //    for Paginations okay 
+	/*
+	 * public Page<Problem> getProblems(Pageable pageable) { Query query = new
+	 * Query().with(pageable);
+	 * 
+	 * // Fetch paginated data List<Problem> problems = mongoTemplate.find(query,
+	 * Problem.class);
+	 * 
+	 * // Count total documents long total = mongoTemplate.count(new Query(),
+	 * Problem.class);
+	 * 
+	 * return new PageImpl<>(problems, pageable, total); }
+	 */    
     public Page<Problem> getProblems(Pageable pageable) {
-        Query query = new Query().with(pageable);
-
-        // Fetch paginated data
-        List<Problem> problems = mongoTemplate.find(query, Problem.class);
-
-        // Count total documents
-        long total = mongoTemplate.count(new Query(), Problem.class);
-
-        return new PageImpl<>(problems, pageable, total);
-    }
+    	return problemRepository.findAll(pageable); 
+    	}
 
     
     public void toggleSolved(String id) {
