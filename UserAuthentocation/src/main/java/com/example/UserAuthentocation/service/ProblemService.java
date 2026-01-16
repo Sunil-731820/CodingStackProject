@@ -20,6 +20,10 @@ public class ProblemService {
     
     @Autowired
     private MongoTemplate mongoTemplate;
+    
+    public ProblemService(ProblemRepository problemRepository) { 
+    	this.problemRepository = problemRepository; 
+    	}
 
     public List<Problem> getAllProblems() {
     	System.out.println("Calling the getAllProblems methods :=");
@@ -67,4 +71,13 @@ public class ProblemService {
     public Problem getProblemById(String id) {
         return problemRepository.findById(id).orElse(null);
     }
+    
+    public Problem findById(String id) {
+        return problemRepository.findById(id).orElse(null);
+    }
+
+    public Problem saveProblem(Problem problem) {
+        return problemRepository.save(problem);
+    }
+
 }

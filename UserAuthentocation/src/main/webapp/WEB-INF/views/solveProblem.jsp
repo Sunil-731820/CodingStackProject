@@ -1,3 +1,6 @@
+<%@page import="com.example.UserAuthentocation.entity.Example"%>
+<%@page import="java.util.List"%>
+<%@page import="com.example.UserAuthentocation.entity.Problem"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -512,15 +515,55 @@ async function submitCode() {
     }
         
         
-//Call startTimer when the page finishes loading
+/* //Call startTimer when the page finishes loading
+
 window.onload = () => {
 	startTimer(120);
-}; 
-    		
+};  */
+
+
+
+async function loadProblem(problemId) {
+	alert("Calling the load problem Methods :=");
+    try {
+        const res = await fetch("<%= request.getContextPath() %>/problems/" + problemId);
+        if (!res.ok) {
+            alert("Problem not found!");
+            return;
+        }
+        const problem = await res.json();
+
+        document.getElementById("problem-title").textContent = problem.title;
+        document.getElementById("problem-description").textContent = problem.description;
+
+        const examplesDiv = document.getElementById("examples");
+        examplesDiv.innerHTML = "";
+        if (problem.examples && problem.examples.length > 0) {
+            problem.examples.forEach(ex => {
+                examplesDiv.innerHTML += `
+                    <pre><b>Input:</b> ${ex.input}
+<b>Output:</b> ${ex.output}
+<b>Explanation:</b> ${ex.explanation}</pre>
+                `;
+            });
+        } else {
+            examplesDiv.innerHTML = "<i>No examples available</i>";
+        }
+    } catch (err) {
+        console.error("Error loading problem:", err);
+        alert("Error loading problem details");
+    }
+}
+
         
     </script>
 </head>
 <body>
+<%
+        Problem problem = (Problem) request.getAttribute("problem");
+        if (problem != null) {
+    %>
+
 <!--  <div class="navbar">
     <h1>Adding New Features</h1>
 </div>
@@ -536,6 +579,31 @@ window.onload = () => {
 
         <div class="tags">Tags: ${problem.tags}</div>
         <div id="timer" class="problem-description">Time: 00:00</div>
+         <h3>Examples</h3>
+        <%
+            List<Example> examples = problem.getExamples();
+            if (examples != null && !examples.isEmpty()) {
+                for (Example ex : examples) {
+        %>
+                    <pre>
+<b>Input:</b> <%= ex.getInput() %>
+<b>Output:</b> <%= ex.getOutput() %>
+<b>Explanation:</b> <%= ex.getExplanation() %>
+                    </pre>
+        <%
+                }
+            } else {
+        %>
+                <b>No examples available for Given Problems. </b>
+        <%
+            }
+        }
+        else {
+        %>
+            <p>Problem not found.</p>
+        <%
+        }
+    %>
 
         <div class="problem-actions">
             <button class="action-btn solve-btn" onclick="window.location.href='/solve/${problem.id}'">Solve In Editor</button>

@@ -5,6 +5,13 @@ public class Example {
 	private String input;
     private String output;
     private String explanation;
+    
+    
+	public Example(String input, String output, String explanation) {
+		this.input = input;
+		this.output = output;
+		this.explanation = explanation;
+	}
 	public String getInput() {
 		return input;
 	}

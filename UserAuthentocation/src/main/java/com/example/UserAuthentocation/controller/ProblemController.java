@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -119,11 +120,21 @@ public class ProblemController {
     
     @GetMapping("/{id}")
     public ResponseEntity<Problem> getProblem(@PathVariable String id) {
+    	System.out.println("Calling the getproblem method for now :="+id);
         return problemRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+	/*
+	 * @GetMapping("/{id}") public Problem getProblem(@PathVariable String id) {
+	 * return problemService.findById(id); }
+	 */
+    @PostMapping
+    public Problem createProblem(@RequestBody Problem problem) {
+    	System.out.println("Callling the create problem method while saving to the Mongo database okay :=");
+        return problemService.saveProblem(problem);
+    }
 
 
     
