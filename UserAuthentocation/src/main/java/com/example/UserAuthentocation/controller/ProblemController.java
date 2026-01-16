@@ -1,5 +1,7 @@
 package com.example.UserAuthentocation.controller;
 
+import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,13 +25,17 @@ import com.example.UserAuthentocation.repository.mongo.ProblemRepository;
 import com.example.UserAuthentocation.service.ProblemService;
 import com.example.UserAuthentocation.service.UserProblemStatusService;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 
 @Controller
 @RequestMapping("/problems")
-public class ProblemController {
+public class ProblemController extends HttpServlet{
 
     @Autowired
     private ProblemRepository problemRepository;
@@ -39,6 +45,43 @@ public class ProblemController {
     
     @Autowired
     private UserProblemStatusService userProblemStatusService;
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String sort = request.getParameter("sort");
+        String order = request.getParameter("order");
+
+        List<Problem> problems = problemService.getAllProblems(); // fetch from DB/service
+
+        if (sort != null) {
+            Comparator<Problem> comparator;
+            switch (sort) {
+                case "title":
+                    comparator = Comparator.comparing(Problem::getTitle, String.CASE_INSENSITIVE_ORDER);
+                    break;
+                case "difficulty":
+                    comparator = Comparator.comparing(Problem::getDifficulty, String.CASE_INSENSITIVE_ORDER);
+                    break;
+                case "tags":
+                    comparator = Comparator.comparing(
+                        p -> p.getTags() != null ? String.join(",", p.getTags()) : ""
+                    );
+                    break;
+                default:
+                    comparator = Comparator.comparing(Problem::getId);
+            }
+            if ("desc".equalsIgnoreCase(order)) {
+                comparator = comparator.reversed();
+            }
+            problems.sort(comparator);
+        }
+
+        request.setAttribute("problems", problems);
+        RequestDispatcher rd = request.getRequestDispatcher("/problems.jsp");
+        rd.forward(request, response);
+    }
     
 
     @GetMapping

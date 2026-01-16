@@ -157,7 +157,7 @@
         </div>
 
         <div class="card">
-            <h2><i class="fa-solid fa-code"></i> Problem List</h2>
+            <h2><!-- <i class="fa-solid fa-code"></i> Problem List --></h2>
             <%@ include file="fragments/problemTable.jsp" %>
         </div>
 

@@ -473,12 +473,30 @@ async function submitCode() {
 }
          
 
-        function copyDescription() {
+/*         function copyDescription() {
             const desc = document.getElementById("problemDesc").innerText;
             navigator.clipboard.writeText(desc).then(() => {
                 
             });
         }
+ */
+        function copyDescription() {
+        	  // Get the text to copy
+        	  const text = document.getElementById("problemDesc").innerText;
+
+        	  // Copy to clipboard
+        	  navigator.clipboard.writeText(text).then(() => {
+        	    // Change button text to "Copied"
+        	    const btn = document.getElementById("copyBtn");
+        	    btn.innerText = "✅ Copied";
+
+        	    // Optionally, revert back after 2 seconds
+        	    setTimeout(() => {
+        	      btn.innerText = "📋 Copy Statement";
+        	    }, 2000);
+        	  });
+        	}
+        	        
 
         function toggleProblemPanel() {
             const problemPanel = document.getElementById("problemPanel");
@@ -505,7 +523,7 @@ async function submitCode() {
 
 
         /*Timer for Solving the Problems  */
- function startTimer(seconds) {
+/*  function startTimer(seconds) {
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
 
@@ -514,7 +532,7 @@ async function submitCode() {
             `Time: \${String(mins).padStart(2, '0')}: \${String(secs).padStart(2, '0')}`;
     }
         
-        
+ */        
 /* //Call startTimer when the page finishes loading
 
 window.onload = () => {
@@ -594,7 +612,7 @@ async function loadProblem(problemId) {
                 }
             } else {
         %>
-                <b>No examples available for Given Problems. </b>
+                <b>No Examples Available for this Given Problems. </b>
         <%
             }
         }
